@@ -15,12 +15,21 @@ async function handleSubmit(event) {
     // print 'searchQuery' to the console
     console.log(searchQuery);
 
+    const searchResults = document.querySelector('.js-search-results');
+    // Clear the previous results
+    searchResults.innerHTML = '';
+
+    const spinner = document.querySelector('.js-spinner');
+    spinner.classList.remove('hidden');
+
     try {
         const results = await searchWikipedia(searchQuery);
         displayResults(results);
     } catch (err) {
         console.log(err);
         alert('Failed to search Wikipedia request')        
+    } finally {
+        spinner.classList.add('hidden');
     }
 }
 
