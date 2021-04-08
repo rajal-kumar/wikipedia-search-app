@@ -24,6 +24,10 @@ async function handleSubmit(event) {
 
     try {
         const results = await searchWikipedia(searchQuery);
+        if (results.query.searchinfo.totalhits === 0) {
+            AudioListener('No results were found. Please try different keywords');
+        }
+        console.log(results);
         displayResults(results);
     } catch (err) {
         console.log(err);
