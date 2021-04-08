@@ -35,6 +35,25 @@ async function searchWikipedia(searchQuery) {
     return json;
 }
 
-function displayResults() {
+function displayResults(results) {
+    // Get a reference to the '.js-search-results' element
     const searchResults = document.querySelector('.js-search-results');
+        
+    //Interate over the `search` array. Each nested object in the array can be
+    //accessed through the `result` parameter
+    results.query.search(result => {
+        const url = `https://en.wikipedia.org/?curid=${result.pageid}`;
+
+        //Append the search result to the DOM
+        searchResults.insertAdjacentHTML(
+            'beforeend',
+            `<div class="result-item">
+                <h3 class="result-title">
+                <a href="${url}" target="_blank" rel="noopener">${result.title}</a>
+                </h3>
+                <a href="${url}" class="result-link" target="_blank" rel="noopener">${url}</a>
+                <span class="result-snippet">${result.snippet}</span><br>
+            </div>`
+        );
+    })
 }
