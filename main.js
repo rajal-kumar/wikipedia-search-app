@@ -1,9 +1,8 @@
 const form = document.querySelector('.js-search-form');
-const endpoint = 'https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=&srlimit=20&srsearch=SEARCH_QUERY_GOES_HERE';
 
 form.addEventListener('submit', handleSubmit);
 
-function handleSubmit(event) {
+async function handleSubmit(event) {
     //Prevents the page form reloading when the form
     event.preventDefault();
 
@@ -15,4 +14,27 @@ function handleSubmit(event) {
 
     // print 'searchQuery' to the console
     console.log(searchQuery);
+
+    try {
+        const results = await searchWikipedia(searchQuery);
+        console.log(results);
+    } catch (err) {
+        console.log(err);
+        alert('Failed to search Wikipedia request')        
+    }
+}
+
+async function searchWikipedia(searchQuery) {
+    const endpoint = `https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${searchQuery}`;
+    const response = await fetch(endpoint);
+
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    const json = await response.json();
+    return json;
+}
+
+function displayResults() {
+    const searchResults = document.querySelector('.js-search-results');
 }
