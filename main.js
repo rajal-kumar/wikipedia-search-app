@@ -17,7 +17,7 @@ async function handleSubmit(event) {
 
     try {
         const results = await searchWikipedia(searchQuery);
-        console.log(results);
+        displayResults(results);
     } catch (err) {
         console.log(err);
         alert('Failed to search Wikipedia request')        
@@ -41,7 +41,7 @@ function displayResults(results) {
         
     //Interate over the `search` array. Each nested object in the array can be
     //accessed through the `result` parameter
-    results.query.search(result => {
+    results.query.search.forEach(result => {
         const url = `https://en.wikipedia.org/?curid=${result.pageid}`;
 
         //Append the search result to the DOM
